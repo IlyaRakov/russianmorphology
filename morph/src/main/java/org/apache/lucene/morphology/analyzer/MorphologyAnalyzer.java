@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Alexander Kuznetsov 
+ * Copyright 2009 Alexander Kuznetsov
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,18 +17,19 @@
 package org.apache.lucene.morphology.analyzer;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.core.LowerCaseFilter;
-import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.apache.lucene.morphology.LetterDecoderEncoder;
 import org.apache.lucene.morphology.LuceneMorphology;
-import org.apache.lucene.util.Version;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+
+import static org.apache.lucene.util.Version.LUCENE_4_9;
 
 public class MorphologyAnalyzer extends Analyzer {
     private LuceneMorphology luceneMorph;
@@ -47,10 +48,10 @@ public class MorphologyAnalyzer extends Analyzer {
 
     @Override
     protected TokenStreamComponents createComponents(String fieldName, Reader reader) {
-        Tokenizer tokenizer = new StandardTokenizer(Version.LUCENE_46, reader);
+        Tokenizer tokenizer = new StandardTokenizer(LUCENE_4_9, reader);
         TokenStream tokenStream = tokenizer;
-        tokenStream = new StandardFilter(Version.LUCENE_46,tokenStream);
-        tokenStream = new LowerCaseFilter(Version.LUCENE_46,tokenStream);
+        tokenStream = new StandardFilter(LUCENE_4_9,tokenStream);
+        tokenStream = new LowerCaseFilter(LUCENE_4_9,tokenStream);
         tokenStream = new MorphologyFilter(tokenStream, luceneMorph);
         return new TokenStreamComponents(tokenizer, tokenStream);
     }
